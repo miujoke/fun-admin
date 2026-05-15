@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>com.miujoke</groupId>
-    <artifactId>fund-admin</artifactId>
+    <artifactId>backend</artifactId>
     <version>1.0.0</version>
     <name>fund-admin</name>
     <description>基金管理系统后端服务</description>
@@ -23,6 +23,8 @@
         <knife4j.version>4.5.0</knife4j.version>
         <jjwt.version>0.12.5</jjwt.version>
         <hutool.version>5.8.27</hutool.version>
+        <langgraph4j.version>1.8.1</langgraph4j.version>
+        <spring-ai.version>1.0.2</spring-ai.version>
     </properties>
 
     <dependencies>
@@ -98,6 +100,24 @@
             <version>${hutool.version}</version>
         </dependency>
 
+        <!-- LangGraph4J - AI Agent 工作流编排 -->
+        <dependency>
+            <groupId>org.bsc.langgraph4j</groupId>
+            <artifactId>langgraph4j-core</artifactId>
+            <version>${langgraph4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bsc.langgraph4j</groupId>
+            <artifactId>langgraph4j-spring-ai</artifactId>
+            <version>${langgraph4j.version}</version>
+        </dependency>
+
+        <!-- Spring AI - 对接大模型 (1.0.2 使用新的 artifact ID) -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
+        </dependency>
+
         <!-- BCrypt (Spring Security 已包含) -->
 
         <!-- Test -->
@@ -107,6 +127,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

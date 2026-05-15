@@ -29,6 +29,7 @@ public class SecurityConfig {
             "/api/auth/captcha",
             "/api/auth/login",
             "/api/health",
+            "/api/ai/**",
             "/doc.html",
             "/swagger-resources/**",
             "/v3/api-docs/**",
