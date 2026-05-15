@@ -7,7 +7,7 @@
 | 层 | 技术 |
 |---|------|
 | 前端 | Vue 3 + Vite + TypeScript + Element Plus + Pinia + Vue Router + Axios |
-| 后端 | Spring Boot 3.2 + MyBatis Plus + Spring Security + JWT + Knife4j |
+| 后端 | Spring Boot 3.2 + MyBatis Plus + Spring Security + JWT + Knife4j + Spring AI + LangGraph4J |
 | 数据库 | MySQL 8.x |
 | 构建 | Maven (后端) / Vite (前端) |
 
@@ -44,7 +44,30 @@ spring:
 
 > 注意：生产环境密码必须加密存储，开发环境可直接使用明文方便调试。
 
-### 3. 启动后端
+### 3. 配置 AI 模型（可选）
+
+编辑 `backend/src/main/resources/application.yml`，配置 DeepSeek API Key：
+
+```yaml
+spring:
+  ai:
+    openai:
+      api-key: ${DEEPSEEK_API_KEY}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-v4-pro
+          temperature: 0.7
+```
+
+通过环境变量设置 API Key：
+```bash
+export DEEPSEEK_API_KEY=sk-your-deepseek-api-key
+```
+
+> AI 对话接口为可选功能，未配置 API Key 时项目仍可正常运行（仅 AI 相关接口不可用）。
+
+### 4. 启动后端
 
 ```bash
 cd backend
@@ -79,6 +102,7 @@ npm run dev
 | 前端页面 | http://localhost:5173 |
 | 后端 API | http://localhost:8080 |
 | 接口文档 | http://localhost:8080/doc.html |
+| AI 对话 | http://localhost:8080/api/ai/chat |
 | 健康检查 | http://localhost:8080/api/health |
 
 ## 基础接口
@@ -90,6 +114,7 @@ npm run dev
 | POST | /api/auth/logout | 退出登录 |
 | GET | /api/auth/me | 获取当前登录用户信息 |
 | GET | /api/health | 健康检查 |
+| POST | /api/ai/chat | AI 对话（LangGraph4J 工作流） |
 
 ## 项目目录结构
 
@@ -119,7 +144,7 @@ frontend/
 ```
 backend/src/main/java/com/miujoke/fundadmin/
   common/        # 通用类(Result, PageResult, ResultCode)
-  config/        # 配置类(Security, MybatisPlus, CORS, Knife4j)
+  config/        # 配置类(Security, MybatisPlus, CORS, Knife4j, AiConfig)
   controller/    # 控制器
   dto/           # 数据传输对象(请求)
   entity/        # 实体类
@@ -131,6 +156,7 @@ backend/src/main/java/com/miujoke/fundadmin/
   service/       # 业务逻辑
     impl/        # 业务实现
   vo/            # 视图对象(响应)
+  ai/            # AI 模块(Spring AI + LangGraph4J 工作流)
   util/          # 工具类
 ```
 
@@ -177,3 +203,4 @@ docker-compose up -d
 - 部门管理
 - 接口限流、防重复提交
 - 微服务拆分（当前为单体分层架构）
+- AI 多节点工作流扩展（风险评估、投资建议等复杂 Agent）
