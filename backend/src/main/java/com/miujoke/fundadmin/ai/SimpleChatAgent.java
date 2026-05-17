@@ -24,6 +24,12 @@ public class SimpleChatAgent {
     @PostConstruct
     public void init() throws Exception {
         workflow = new StateGraph<>(ChatState.channels(), ChatState::new)
+                .addNode("check", AsyncNodeAction.node_async((NodeAction<ChatState>) state -> {
+                    log.info("Checking for sensitive words...");
+                    String safe = state.getQuestion().contains("违规词") ? "0" : "1";
+                    // 将检查结果更新到共享的 State 中
+                    return Map.of(ChatState.IS_SAFE, safe);
+                }))
                 .addNode("chat", AsyncNodeAction.node_async((NodeAction<ChatState>) state -> {
                     String question = state.getQuestion();
                     log.info("LangGraph chat node processing: {}", question);
@@ -33,7 +39,8 @@ public class SimpleChatAgent {
                             .content();
                     return Map.of(ChatState.ANSWER, answer);
                 }))
-                .addEdge(StateGraph.START, "chat")
+                .addEdge(StateGraph.START, "check")
+                .addEdge("check", "chat")
                 .addEdge("chat", StateGraph.END)
                 .compile();
         log.info("LangGraph workflow compiled successfully");
