@@ -1,4 +1,4 @@
-package com.miujoke.fundadmin.ai;
+package com.miujoke.fundadmin.ai.chat;
 
 import org.bsc.langgraph4j.state.AgentState;
 import org.bsc.langgraph4j.state.Channel;

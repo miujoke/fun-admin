@@ -1,4 +1,4 @@
-package com.miujoke.fundadmin.ai;
+package com.miujoke.fundadmin.ai.chat;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.miujoke.fundadmin.ai;
+package com.miujoke.fundadmin.ai.chat;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

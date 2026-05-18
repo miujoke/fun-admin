@@ -1,4 +1,4 @@
-package com.miujoke.fundadmin.ai;
+package com.miujoke.fundadmin.ai.chat;
 
 import com.miujoke.fundadmin.common.Result;
 import io.swagger.v3.oas.annotations.Operation;
